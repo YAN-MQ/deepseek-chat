@@ -6,33 +6,26 @@ const router = express.Router();
 
 router.post('/chat', async (req, res) => {
   try {
-    console.log('收到请求:', req.body);
-
+    const { messages } = req.body;
+    
     const response = await axios.post('https://api.deepseek.com/v1/chat/completions', {
-      model: 'deepseek-chat',
-      messages: req.body.messages,
+      model: "deepseek-chat",
+      messages: messages,
       temperature: 0.7,
       max_tokens: 2000
     }, {
       headers: {
-        'Authorization': `Bearer ${config.deepseekApiKey}`,
         'Content-Type': 'application/json',
-      },
+        'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`
+      }
     });
 
-    console.log('API 响应:', response.data);
     res.json(response.data);
   } catch (error) {
-    console.error('错误详情:', {
-      message: error.message,
-      response: error.response?.data,
-      status: error.response?.status
-    });
-    
+    console.error('Error:', error.response?.data || error.message);
     res.status(500).json({
-      error: '服务器错误',
-      details: error.response?.data || error.message,
-      status: error.response?.status
+      error: '抱歉，发生了一些错误，请稍后再试。',
+      details: error.response?.data || error.message
     });
   }
 });

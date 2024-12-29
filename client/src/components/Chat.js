@@ -20,13 +20,17 @@ const Chat = () => {
 
     try {
       const response = await axios.post(`${API_URL}/api/chat`, {
-        messages: [...messages, userMessage],
+        messages: [...messages, userMessage]
       }, {
         headers: {
-          'Content-Type': 'application/json'
-        },
-        withCredentials: true
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
       });
+
+      if (response.data.error) {
+        throw new Error(response.data.error);
+      }
 
       const assistantMessage = response.data.choices[0].message;
       setMessages(prev => [...prev, assistantMessage]);
