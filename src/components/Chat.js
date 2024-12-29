@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import './Chat.css';
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -13,6 +15,7 @@ const Chat = () => {
     setMessages([...messages, userMessage]);
     setInput('');
     setLoading(true);
+    setError(null);
 
     try {
       const response = await fetch('https://deepseekchat-7ion2ure4-yan-mingqis-projects.vercel.app/api/chat', {
@@ -25,18 +28,25 @@ const Chat = () => {
         }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        console.error('API Error:', data);
+        throw new Error(data.error || `HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
+      if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+        throw new Error('Invalid response format from API');
+      }
+
       const assistantMessage = data.choices[0].message;
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
       console.error('Error:', error);
+      setError(error.message);
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: '抱歉，发生了一些错误。请稍后再试。错误详情：' + error.message
+        content: '抱歉，发生了一些错误。请稍后再试。\n错误详情：' + error.message
       }]);
     } finally {
       setLoading(false);
@@ -45,6 +55,11 @@ const Chat = () => {
 
   return (
     <div className="chat-container">
+      {error && (
+        <div className="error-banner">
+          发生错误：{error}
+        </div>
+      )}
       <div className="messages">
         {messages.map((message, index) => (
           <div key={index} className={`message ${message.role}`}>
@@ -59,8 +74,11 @@ const Chat = () => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="输入您的问题..."
+          disabled={loading}
         />
-        <button type="submit" disabled={loading}>发送</button>
+        <button type="submit" disabled={loading}>
+          {loading ? '发送中...' : '发送'}
+        </button>
       </form>
     </div>
   );
