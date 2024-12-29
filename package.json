@@ -1,0 +1,7 @@
+{
+  "homepage": "https://YAN-MQ.github.io/deepseek-chat",
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  }
+} 
