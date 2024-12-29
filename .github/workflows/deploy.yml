@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -24,7 +26,14 @@ jobs:
       - name: Install Dependencies
         run: |
           cd client
-          npm install
+          npm install --legacy-peer-deps
+        
+      - name: Debug directory
+        run: |
+          pwd
+          ls -la
+          cd client
+          ls -la
 
       - name: Build
         run: |
@@ -33,9 +42,15 @@ jobs:
         env:
           REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
 
+      - name: Debug build output
+        run: |
+          cd client
+          ls -la build/
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           folder: client/build
           branch: gh-pages
           clean: true 
