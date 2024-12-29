@@ -21,21 +21,19 @@ const Chat = () => {
       const response = await fetch('https://deepseekchat-7ion2ure4-yan-mingqis-projects.vercel.app/api/chat', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Accept': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           messages: [...messages, userMessage],
         }),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        console.error('API Error:', data);
-        throw new Error(data.error || `HTTP error! status: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
       }
 
+      const data = await response.json();
       if (!data.choices || !data.choices[0] || !data.choices[0].message) {
         throw new Error('Invalid response format from API');
       }
