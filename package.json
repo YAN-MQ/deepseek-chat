@@ -10,12 +10,10 @@
     "client": "npm start --workspace=client",
     "server": "npm run dev --workspace=server",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "npm run build --workspace=client",
-    "deploy": "npm run build && gh-pages -d client/build"
+    "build": "npm run build --workspace=client"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
-    "gh-pages": "^6.1.0"
+    "concurrently": "^8.2.2"
   },
   "homepage": "https://YAN-MQ.github.io/deepseek-chat"
-} 
+}

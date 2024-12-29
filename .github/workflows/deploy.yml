@@ -19,12 +19,13 @@ jobs:
 
       - name: Install Dependencies
         run: |
+          cd client
           npm install
-          cd client && npm install
-          cd ../server && npm install
 
       - name: Build
-        run: cd client && npm run build
+        run: |
+          cd client
+          npm run build
         env:
           REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
 
@@ -32,4 +33,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: client/build 
+          folder: client/build
+          clean: true 
