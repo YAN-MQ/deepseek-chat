@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/deepseek-chat/static/css/main.3174c95b.css",
-    "main.js": "/deepseek-chat/static/js/main.75473ae6.js",
+    "main.js": "/deepseek-chat/static/js/main.cab5a9f2.js",
     "index.html": "/deepseek-chat/index.html",
     "main.3174c95b.css.map": "/deepseek-chat/static/css/main.3174c95b.css.map",
-    "main.75473ae6.js.map": "/deepseek-chat/static/js/main.75473ae6.js.map"
+    "main.cab5a9f2.js.map": "/deepseek-chat/static/js/main.cab5a9f2.js.map"
   },
   "entrypoints": [
     "static/css/main.3174c95b.css",
-    "static/js/main.75473ae6.js"
+    "static/js/main.cab5a9f2.js"
   ]
 }
