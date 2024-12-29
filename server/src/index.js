@@ -7,7 +7,11 @@ const app = express();
 
 // 更新 CORS 配置
 app.use(cors({
-  origin: ['https://yan-mq.github.io', 'http://localhost:3000'],
+  origin: [
+    'https://yan-mq.github.io', 
+    'http://localhost:3000',
+    'https://deepseekchat-7ion2ure4-yan-mingqis-projects.vercel.app'
+  ],
   methods: ['GET', 'POST'],
   credentials: true
 }));
