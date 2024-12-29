@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/Chat.css';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+const API_URL = process.env.REACT_APP_API_URL || 'https://deepseekchat-7ion2ure4-yan-mingqis-projects.vercel.app';
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -21,6 +21,11 @@ const Chat = () => {
     try {
       const response = await axios.post(`${API_URL}/api/chat`, {
         messages: [...messages, userMessage],
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
       });
 
       const assistantMessage = response.data.choices[0].message;
