@@ -21,7 +21,8 @@ const Chat = () => {
       const response = await fetch('https://deepseekchat-7ion2ure4-yan-mingqis-projects.vercel.app/api/chat', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json; charset=utf-8',
+          'Accept': 'application/json',
         },
         body: JSON.stringify({
           messages: [...messages, userMessage],

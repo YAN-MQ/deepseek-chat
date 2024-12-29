@@ -1,6 +1,11 @@
 import fetch from 'node-fetch';
 
 export default async function handler(req, res) {
+  // 设置安全和缓存相关的响应头
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  
   // 设置CORS头
   res.setHeader('Access-Control-Allow-Credentials', false);
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -33,7 +38,7 @@ export default async function handler(req, res) {
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=utf-8',
         'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
       },
       body: JSON.stringify({
