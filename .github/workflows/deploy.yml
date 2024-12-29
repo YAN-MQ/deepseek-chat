@@ -21,19 +21,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm'
 
-      - name: Install Dependencies
+      - name: Clean install dependencies
         run: |
           cd client
-          npm install --legacy-peer-deps
-        
-      - name: Debug directory
-        run: |
-          pwd
-          ls -la
-          cd client
-          ls -la
+          rm -f package-lock.json
+          npm install --force
 
       - name: Build
         run: |
@@ -41,11 +34,6 @@ jobs:
           CI=false npm run build
         env:
           REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
-
-      - name: Debug build output
-        run: |
-          cd client
-          ls -la build/
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
