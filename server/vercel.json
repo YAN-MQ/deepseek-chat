@@ -14,10 +14,10 @@
       "headers": {
         "Access-Control-Allow-Origin": "https://yan-mq.github.io",
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-        "Access-Control-Allow-Credentials": "true",
-        "Content-Type-Options": "nosniff",
-        "X-Content-Type-Options": "nosniff"
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Max-Age": "86400",
+        "X-Content-Type-Options": "nosniff",
+        "Content-Type": "application/json; charset=utf-8"
       }
     }
   ],

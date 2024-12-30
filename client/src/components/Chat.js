@@ -19,26 +19,28 @@ const Chat = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${API_URL}/api/chat`, {
-        messages: [...messages, userMessage]
-      }, {
+      const response = await fetch(`${API_URL}/api/chat`, {
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          messages: [...messages, userMessage]
+        })
       });
 
-      if (response.data.error) {
-        throw new Error(response.data.error);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const assistantMessage = response.data.choices[0].message;
+      const data = await response.json();
+      const assistantMessage = data.choices[0].message;
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
       console.error('Error:', error);
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: '抱歉，发生了一些错误。请稍后再试。'
+        content: '抱歉，发生了一些错误。请稍后再试。\n错误详情：' + error.message
       }]);
     } finally {
       setLoading(false);
